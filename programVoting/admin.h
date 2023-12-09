@@ -15,9 +15,15 @@ struct dataPemilih{
 
 
 
-int pilihanMenuAdmin(char namaBaru[100], char NIMBaru[20], char kelasBaru[10], char JKBaru[2], FILE *dataFile, FILE *readFile);
+int pilihanMenuAdmin();
+void inputDataAdmin(char namaBaru[100], char NIMBaru[20], char kelasBaru[10], char JKBaru[2], FILE *dataFile, FILE *readFile);
 
 void inputUser();
+
+int reDo();
+
+void lihatUser();
+
 
 void lihatHasilSementara();
 

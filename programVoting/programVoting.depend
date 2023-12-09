@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1702077558 source:c:\users\muhammad ridho f\desktop\c program\kpuprograms\programvoting\main.c
+1702107047 source:c:\users\muhammad ridho f\desktop\c program\kpuprograms\programvoting\main.c
 	<stdio.h>
 	<stdlib.h>
 	"admin.h"
@@ -7,7 +7,7 @@
 	<time.h>
 	<math.h>
 
-1702078141 source:c:\users\muhammad ridho f\desktop\c program\kpuprograms\programvoting\admin.c
+1702108615 source:c:\users\muhammad ridho f\desktop\c program\kpuprograms\programvoting\admin.c
 	"admin.h"
 	<stdio.h>
 	<stdlib.h>
@@ -15,8 +15,9 @@
 	<conio.h>
 	<time.h>
 	<math.h>
+	<ctype.h>
 
-1702077551 c:\users\muhammad ridho f\desktop\c program\kpuprograms\programvoting\admin.h
+1702106419 c:\users\muhammad ridho f\desktop\c program\kpuprograms\programvoting\admin.h
 	<stdlib.h>
 	<conio.h>
 	<stdio.h>
