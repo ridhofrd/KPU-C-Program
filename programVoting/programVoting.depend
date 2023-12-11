@@ -1,13 +1,15 @@
 # depslib dependency file v1.0
-1702107047 source:c:\users\muhammad ridho f\desktop\c program\kpuprograms\programvoting\main.c
+1702337130 source:c:\users\muhammad ridho f\desktop\c program\kpuprograms\programvoting\main.c
 	<stdio.h>
 	<stdlib.h>
 	"admin.h"
+	"menu.h"
 	<windows.h>
 	<time.h>
 	<math.h>
+	"user.h"
 
-1702108615 source:c:\users\muhammad ridho f\desktop\c program\kpuprograms\programvoting\admin.c
+1702338158 source:c:\users\muhammad ridho f\desktop\c program\kpuprograms\programvoting\admin.c
 	"admin.h"
 	<stdio.h>
 	<stdlib.h>
@@ -16,10 +18,43 @@
 	<time.h>
 	<math.h>
 	<ctype.h>
+	<windows.h>
+	<stdlib.h>
+	<stdbool.h>
 
-1702106419 c:\users\muhammad ridho f\desktop\c program\kpuprograms\programvoting\admin.h
+1702335372 c:\users\muhammad ridho f\desktop\c program\kpuprograms\programvoting\admin.h
 	<stdlib.h>
 	<conio.h>
 	<stdio.h>
 	<math.h>
+	<windows.h>
+
+1702335830 source:c:\users\muhammad ridho f\desktop\c program\kpuprograms\programvoting\user.c
+	<stdlib.h>
+	<conio.h>
+	<stdio.h>
+	<math.h>
+	"user.h"
+	<windows.h>
+	<stdlib.h>
+	<stdbool.h>
+
+1702334721 c:\users\muhammad ridho f\desktop\c program\kpuprograms\programvoting\user.h
+	<stdlib.h>
+	<conio.h>
+	<stdio.h>
+	<math.h>
+	<windows.h>
+
+1702336215 source:c:\users\muhammad ridho f\desktop\c program\kpuprograms\programvoting\menu.c
+	"menu.h"
+	<stdlib.h>
+	<conio.h>
+	<stdio.h>
+	<math.h>
+	<windows.h>
+	<stdlib.h>
+	<stdbool.h>
+
+1702335364 c:\users\muhammad ridho f\desktop\c program\kpuprograms\programvoting\menu.h
 

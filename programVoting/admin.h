@@ -1,9 +1,11 @@
-#ifndef admin.h
-#define admin.h
+#ifndef admin_h
+#define admin_h
+
 #include <stdlib.h>
 #include <conio.h>
 #include <stdio.h>
 #include <math.h>
+#include <windows.h>
 
 struct dataPemilih{
     char nama[100];
@@ -20,12 +22,8 @@ void inputDataAdmin(char namaBaru[100], char NIMBaru[20], char kelasBaru[10], ch
 
 void inputUser();
 
-int reDo();
-
 void lihatUser();
 
-
 void lihatHasilSementara();
-
 
 #endif

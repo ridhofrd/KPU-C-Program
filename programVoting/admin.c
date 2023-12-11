@@ -6,6 +6,9 @@
 #include <time.h>
 #include <math.h>
 #include <ctype.h>
+#include <windows.h>
+#include <stdlib.h>
+#include <stdbool.h>
 
 
 int readRecordSize(FILE *recordS){
@@ -41,17 +44,18 @@ int pilihanMenuAdmin(){
             printf("[%c]Daftarkan User\n", (selectedOption == 1) ? 'x' : ' ');
             printf("[%c]Lihat Hasil Sementara\n", (selectedOption == 2) ? 'x' : ' ');
             printf("[%c]Lihat Daftar User\n", (selectedOption == 3) ?'x' : ' ');
-            printf("[%c]Exit\n", (selectedOption == 4) ? 'x' : ' ');
+            printf("[%c]Kembali Ke Menu Utama\n", (selectedOption == 4) ? 'x' : ' ');
+            printf("[%c]Exit\n", (selectedOption == 5) ? 'x' : ' ');
 
             key = getch();
             // Handle arrow key input for the main menu
             switch (key) {
                 case 72:  // Up arrow key
-                    selectedOption = (selectedOption > 1) ? selectedOption - 1 : 4;
+                    selectedOption = (selectedOption > 1) ? selectedOption - 1 : 5;
                     system("cls");
                     break;
                 case 80:  // Down arrow key
-                    selectedOption = (selectedOption < 4) ? selectedOption + 1 : 1;
+                    selectedOption = (selectedOption < 5) ? selectedOption + 1 : 1;
                     system("cls");
                     break;
                 case 13:  // Enter key
@@ -75,7 +79,12 @@ int pilihanMenuAdmin(){
 }
 
 void inputDataAdmin(char namaBaru[100], char NIMBaru[20], char kelasBaru[10], char JKBaru[2], FILE *dataFile, FILE *readFile){
-            // Display the submenu
+            // Display the submenu;
+
+            if(!dataFile || !readFile){
+                printf("Nothing to see here!\n");
+                return 0;
+            }
 
             int size = 12, iC = 0;
             char password[size];
@@ -122,7 +131,10 @@ void inputDataAdmin(char namaBaru[100], char NIMBaru[20], char kelasBaru[10], ch
             fprintf(dataFile, "%s %s %s %s %s T\n", namaBaru, NIMBaru, kelasBaru, JKBaru, password);
             printf("Klik enter jika sudah selesai!");
             scanf("%c", &enterState);
-        }
+
+            fclose(dataFile);
+            fclose(readFile);
+}
 
 
 void lihatUser(){
@@ -151,24 +163,86 @@ void lihatUser(){
 
 }
 
-int reDo(){
-    char statC, terminate;
-    int stat = 0;
-    printf("Apakah anda ingin kembali ke-menu utama?(y/n)");
-    scanf("%c", &statC);
-    scanf("%c", &terminate);
-    if(statC == 'y' || statC == 'Y')
-        stat = 1;
-
-    printf("%c", statC);
-
-    return stat;
-}
-
 void lihatHasilSementara(){
     time_t t = time(NULL);
     struct tm tm = *localtime(&t);
+    char calon[20];
+    int jumlah;
+
+    FILE *hasilVote = fopen("dataCalon.txt", "r");
+
     printf("Berikut merupakan hasil dari pemilihan per-tanggal %d-%02d-%02d %02d:%02d:%02d\n", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
-    printf("Calon 1: \nCalon 2: \n");
+    while(!feof(hasilVote))
+    {
+        fscanf(hasilVote, "%s %d", calon, &jumlah);
+        printf("%s: %d\n", calon, jumlah);
+    }
+    if(feof(hasilVote)){
+        printf("Pembacaan hasil voting sudah selesai!\n");
+    }
+
+    fclose(hasilVote);
+}
+
+int AdminlogIn(){
+    system("cls");
+    FILE *readIn = fopen("dataAdmin.txt", "r");
+    char passwordIn[20], NIMIn[20];
+    char tempUsername[100], tempNIM[20], tempJK[2], tempKelas[10], tempPassword[20];
+    int finalS = 0, i = 0;
+    char terminate;
+
+    printf("===============Admin Login=================\n\n");
+
+    printf("Masukan NIM Admin: ");
+    scanf("%s", &NIMIn);
+    printf("Masukkan Password Admin: ");
+    scanf("%s", &passwordIn);
+    scanf("%c", &terminate);
+
+    printf("NIM:  %s\n", NIMIn);
+
+    rewind(readIn);
+
+    while(!feof(readIn)){
+        fscanf(readIn, "%s %s %s %s %s", tempUsername, tempNIM, tempKelas, tempJK, tempPassword);
+        if(strcmp(NIMIn, tempNIM) == 0){
+            while(i < 4)
+            {
+                if(strcmp(passwordIn, tempPassword) == 0    ){
+                    printf("Anda Berhasil Login!\n");
+                    finalS = 1;
+                    return finalS;
+                    i = 4;
+
+                }
+                else{
+                    if(i != 3){
+                        printf("Password Salah! Silahkan Masukan Kembali Password\n");
+                        printf("Password: ");
+                        scanf("%s", &passwordIn);
+                    }
+                    else
+                    {
+                        finalS = 2;
+                        printf("Sudah 3 Kali Salah!\n");
+                        return finalS;
+                    }
+
+                    i++;
+                }
+            }
+        }
+        finalS = 3;
+
+    }
+    if(feof(readIn))
+    {
+        printf("Proses Login Admin Selesai\n");
+        fclose(readIn);
+    }
+    return finalS;
+
+
 }
 
