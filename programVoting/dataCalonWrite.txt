@@ -1,2 +1,2 @@
-Calon1 2
-Calon2 1
+Calon1 19
+Calon2 7

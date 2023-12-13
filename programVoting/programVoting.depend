@@ -58,3 +58,80 @@
 
 1702335364 c:\users\muhammad ridho f\desktop\c program\kpuprograms\programvoting\menu.h
 
+1702441665 source:c:\users\muhammad ridho f\desktop\c program\kpuprograms\kpu-program-new\kpu-c-program\programvoting\admin.c
+	"admin.h"
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<conio.h>
+	<time.h>
+	<math.h>
+	<ctype.h>
+	<windows.h>
+	<stdlib.h>
+	<stdbool.h>
+
+1702439631 c:\users\muhammad ridho f\desktop\c program\kpuprograms\kpu-program-new\kpu-c-program\programvoting\admin.h
+	<stdlib.h>
+	<conio.h>
+	<stdio.h>
+	<math.h>
+	<windows.h>
+
+1702440444 source:c:\users\muhammad ridho f\desktop\c program\kpuprograms\kpu-program-new\kpu-c-program\programvoting\main.c
+	<stdio.h>
+	<stdlib.h>
+	"admin.h"
+	"menu.h"
+	<windows.h>
+	<time.h>
+	<math.h>
+	"user.h"
+
+1702397151 c:\users\muhammad ridho f\desktop\c program\kpuprograms\kpu-program-new\kpu-c-program\programvoting\adminnew.h
+	<stdlib.h>
+	<conio.h>
+	<stdio.h>
+	<math.h>
+	<windows.h>
+
+1702397151 c:\users\muhammad ridho f\desktop\c program\kpuprograms\kpu-program-new\kpu-c-program\programvoting\menunew.h
+
+1702397153 c:\users\muhammad ridho f\desktop\c program\kpuprograms\kpu-program-new\kpu-c-program\programvoting\usernew.h
+	<stdlib.h>
+	<conio.h>
+	<stdio.h>
+	<math.h>
+	<windows.h>
+
+1702443104 source:c:\users\muhammad ridho f\desktop\c program\kpuprograms\kpu-program-new\kpu-c-program\programvoting\user.c
+	<stdlib.h>
+	<conio.h>
+	<stdio.h>
+	<math.h>
+	"user.h"
+	"menu.h"
+	<windows.h>
+	<stdlib.h>
+	<stdbool.h>
+	<string.h>
+
+1702438228 c:\users\muhammad ridho f\desktop\c program\kpuprograms\kpu-program-new\kpu-c-program\programvoting\user.h
+	<stdlib.h>
+	<conio.h>
+	<stdio.h>
+	<math.h>
+	<windows.h>
+
+1702438109 c:\users\muhammad ridho f\desktop\c program\kpuprograms\kpu-program-new\kpu-c-program\programvoting\menu.h
+
+1702438083 source:c:\users\muhammad ridho f\desktop\c program\kpuprograms\kpu-program-new\kpu-c-program\programvoting\menu.c
+	"menu.h"
+	<stdlib.h>
+	<conio.h>
+	<stdio.h>
+	<math.h>
+	<windows.h>
+	<stdlib.h>
+	<stdbool.h>
+

@@ -20,6 +20,7 @@ int main()
     FILE *dataCalonBackup;
     dataCalonBackup = fopen("dataCalonBackup.txt", "a");
     int menuAdmin, lines = readRecordSize(readUser), berhasilLogin;
+    int votePermission;
 
 
     if(!dataUser || !readUser || !dataCalon || !dataCalonBackup || !readCalon){
@@ -27,12 +28,13 @@ int main()
         return EXIT_FAILURE;
     }
 
-    int n = 2, stats = 1, statusUser = 1, statusRole;
+    int n = 2, stats = 1, statusRole;
     struct dataPemilih user[n];
 
 
     while(stats == 1)
     {
+        int statusAdmin = 1, statusUser = 1;
         loading();
         statusRole = loginAwal();
         if(statusRole == 2)
@@ -40,37 +42,50 @@ int main()
             int statusAdminLogin = AdminlogIn();
             if(statusAdminLogin == 1)
             {
-                menuAdmin = pilihanMenuAdmin();
-                if(menuAdmin == 1){
-                    inputDataAdmin(user[0].nama, user[0].kelas, user[0].NIM, user[0].JK, dataUser, readUser);
-                    stats = reDo();
-                }
-                else if(menuAdmin == 2){
-                    lihatHasilSementara();
-                    stats = reDo();
-                }
-                else if(menuAdmin == 3){
-                    lihatUser();
-                    stats = reDo();
+                while(statusAdmin == 1)
+                {
+                    menuAdmin = pilihanMenuAdmin();
+                    if(menuAdmin == 1){
+                        inputDataAdmin(user[0].nama, user[0].kelas, user[0].NIM, user[0].JK, user[0].statusVoting, dataUser, readUser);
+                        statusAdmin = statusAdminAsk();
+                    }
+                    else if(menuAdmin == 2){
+                        lihatHasilSementara();
+                        statusAdmin = statusAdminAsk();
+                    }
+                    else if(menuAdmin == 3){
+                        lihatUser();
+                        statusAdmin = statusAdminAsk();
 
+                    }
+                    else if(menuAdmin == 4){
+                        statusAdmin = 0;
+                    }
+                    else{
+                        return 0;
+                    }
                 }
-                else if(menuAdmin == 4){
-                    stats = reDo();
-                }
+
+                stats = reDo();
             }
             else if(statusAdminLogin == 2)
             {
                 printf("Anda gagal untuk melakukan login\n");
+            	stats = reDo();
+
             }
             else if(statusAdminLogin == 3){
                 printf("Anda gagal melakukan login karena NIM anda menunjukkan bahwa anda bukan admin!\n");
+           		 stats = reDo();
+
             }
-            stats = reDo();
+
         }
         else if(statusRole == 1){
-            char NIMlogIn[20];
-
+			char NIMlogIn[20];
             berhasilLogin = logIn(&NIMlogIn);
+    		int votePermission = validateVote(NIMlogIn);
+
 
             if(berhasilLogin == 1){
                 while(statusUser == 1)
@@ -81,17 +96,28 @@ int main()
                         statusUser = statusUserAsk();
                     }
                     else if(userSelec == 2){
-                        tampilkanIdentitasDiri(readUser, NIMlogIn);
+                        tampilkanIdentitasDiri(readUser, NIMlogIn, votePermission);
                         statusUser = statusUserAsk();
                     }
                     else if(userSelec == 3){
-                        votingCalon();
-                        statusUser = statusUserAsk();
+                    	if(votePermission == 1){
+                    		votingCalon(NIMlogIn, &votePermission);
+	                        statusUser = statusUserAsk();
+						}
+						else
+						{
+							printf("Karena anda sudah tidak memiliki kuota voting, maka anda tidak diperkenankan melakukan vote!\n");
+							statusUser = statusUserAsk();
+						}
 
                     }
                     else if(userSelec == 4){
-                        return 0;
+                        break;
                     }
+                    else{
+                    	statusUser = 0;
+                    	return 0;
+					}
                 }
 
             }

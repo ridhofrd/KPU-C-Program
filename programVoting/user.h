@@ -12,7 +12,7 @@ int logIn(char *NIMIn[20]);
 int vote(FILE *writeVote, FILE *backupVote);
 int pilihanMenuUser();
 void tampilkanVisiMisi();
-void tampilkanIdentitasDiri(FILE *readUserIdentity, char NIMLog[20]);
+void tampilkanIdentitasDiri(FILE *readUserIdentity, char NIMLog[20], int statusVoting);
 void votingCalon();
 
 #endif

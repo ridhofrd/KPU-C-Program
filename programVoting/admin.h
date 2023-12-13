@@ -13,12 +13,13 @@ struct dataPemilih{
     char kelas[10];
     char JK[2];
     char password[20];
+    char statusVoting[2];
 };
 
 
 
 int pilihanMenuAdmin();
-void inputDataAdmin(char namaBaru[100], char NIMBaru[20], char kelasBaru[10], char JKBaru[2], FILE *dataFile, FILE *readFile);
+void inputDataAdmin(char namaBaru[100], char NIMBaru[20], char kelasBaru[10], char JKBaru[2], char statusVoting[2], FILE *dataFile, FILE *readFile);
 
 void inputUser();
 

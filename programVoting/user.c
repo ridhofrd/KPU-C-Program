@@ -3,9 +3,11 @@
 #include <stdio.h>
 #include <math.h>
 #include "user.h"
+#include "menu.h"
 #include <windows.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 
 void loading(){
 	system("cls");
@@ -49,14 +51,13 @@ int logIn(char *NIMIn[20]){
 
     while(!feof(readIn)){
         fscanf(readIn, "%s %s %s %s %s %s", tempUsername, tempNIM, tempKelas, tempJK, tempPassword, tempStatus);
-        if(strcmp(NIMIn, tempNIM) == 0){
+		if(strcmp(NIMIn, tempNIM) == 0){
             while(i < 4)
             {
                 if(strcmp(passwordIn, tempPassword) == 0    ){
                     printf("Anda Berhasil Login!\n");
-                    finalS = 1;
                     i = 4;
-
+					return 1;
                 }
                 else{
                     if(i != 3){
@@ -66,14 +67,15 @@ int logIn(char *NIMIn[20]){
                         scanf("%s", &passwordIn);
                     }
                     else
+                    {
                         printf("Sudah 3 Kali Salah!\n");
-                    finalS = 0;
+						return 2;
+					}
                     i++;
                 }
             }
         }
-        finalS = 3;
-
+		finalS = 3;
     }
     if(feof(readIn))
     {
@@ -106,17 +108,18 @@ int pilihanMenuUser(){
                 printf("[%c]Lihat Visi Misi Calon\n", (selectedOption == 1) ? 'x' : ' ');
                 printf("[%c]Lihat Identitas Diri\n", (selectedOption == 2) ? 'x' : ' ');
                 printf("[%c]Lakukan Voting\n", (selectedOption == 3) ?'x' : ' ');
-                printf("[%c]Exit\n", (selectedOption == 4) ? 'x' : ' ');
+                printf("[%c]Logut dan Kembali ke Menu Utama\n", (selectedOption == 4) ? 'x' : ' ');
+                printf("[%c]Exit\n", (selectedOption == 5) ? 'x' : ' ');
 
                 key = getch();
                 // Handle arrow key input for the main menu
                 switch (key) {
                     case 72:  // Up arrow key
-                        selectedOption = (selectedOption > 1) ? selectedOption - 1 : 4;
+                        selectedOption = (selectedOption > 1) ? selectedOption - 1 : 5;
                         system("cls");
                         break;
                     case 80:  // Down arrow key
-                        selectedOption = (selectedOption < 4) ? selectedOption + 1 : 1;
+                        selectedOption = (selectedOption < 5) ? selectedOption + 1 : 1;
                         system("cls");
                         break;
                     case 13:  // Enter key
@@ -145,7 +148,7 @@ void tampilkanVisiMisi(){
     printf("Nama: Farrel Keiza\n");
     printf("NIM: 2512312323\n");
     printf("Kelas: D3-2B\n");
-    printf("Visi: Hahahhahaha\n");
+    printf("Visi: Terwujudnya anggota HIMAKOM POLBAN yang semakin berprestasi dan kolaboratif sesuai minat bakatnya, memiliki rasa kekeluargaan, dan berjiwa sosial yang tinggi.\n");
     printf("Misi: Hihihihihihi\n\n");
 
     printf("Calon 2\n");
@@ -156,41 +159,44 @@ void tampilkanVisiMisi(){
     printf("Misi: hehehehheheh\n");
 }
 
-void tampilkanIdentitasDiri(FILE *readUserIdentity, char NIMLog[20]){
+void tampilkanIdentitasDiri(FILE *readUserIdentity, char NIMLog[20], int statusVoting){
     char tempNama[100], tempNIM[20], tempKelas[10], tempJK[2], tempPassword[20], tempStatus[2];
+	char terminate;
+
+	rewind(readUserIdentity);
 
     printf("================Identitas Diri User=====================\n\n");
+    NIMLog[strcspn(NIMLog, " ")] = 0;
+	printf("NIMLog: %s\n", NIMLog);
 
     while(!feof(readUserIdentity)){
         fscanf(readUserIdentity, "%s %s %s %s %s %s", tempNama, tempNIM, tempKelas, tempJK, tempPassword, tempStatus);
-        if(tempNIM == NIMLog && tempStatus == "T"){
+		if(strcmp(tempNIM,NIMLog) == 0 && statusVoting == 1){
             printf("Nama User: %s\n", tempNama);
             printf("Nama NIM: %s\n", tempNIM);
-            printf("Nama User: %s\n", tempKelas);
-            printf("Nama User: %s\n", tempJK);
+            printf("Kelas User: %s\n", tempKelas);
+            printf("Jenis Kelamin: %s\n", tempJK);
             printf("Status: User masih bisa melakukan voting\n");
-
         }
-        else{
+        else if(strcmp(tempNIM, NIMLog) == 0 && statusVoting == 0){
             printf("Nama User: %s\n", tempNama);
             printf("Nama NIM: %s\n", tempNIM);
-            printf("Nama User: %s\n", tempKelas);
-            printf("Nama User: %s\n", tempJK);
+            printf("Kelas User: %s\n", tempKelas);
+            printf("Jenis Kelamin: %s\n", tempJK);
             printf("Status: User sudah tidak bisa melakukan voting\n");
-        }
+		}
     }
 
 
 }
 
-void votingCalon(){
+void votingCalon(char userNIM[20], int *permissionVote){
     FILE *readStream = fopen("dataCalon.txt", "r");
     int key = 1, tampilkanMenuVote = 1;
     int selectedOption = 1, submenuOption = 0;
     if(!readStream)
     {
         printf("Nothing to see here!");
-        return 0;
     }
 
     while(tampilkanMenuVote == 1)
@@ -201,7 +207,7 @@ void votingCalon(){
 
             printf("=================Menu Voting Calon=================\n");
                 // display the main menu
-                printf("Pilih Menu:\n");
+                printf("Silahkan Untuk Melakukan Voting:\n");
                 printf("[%c]Vote Calon Nomor Urut 1: Farrel Keiza\n", (selectedOption == 1) ? 'x' : ' ');
                 printf("[%c]Vote Calon Nomor Urut 2: Banteng Hari Santoso\n", (selectedOption == 2) ? 'x' : ' ');
                 printf("[%c]Exit\n", (selectedOption == 3) ? 'x' : ' ');
@@ -227,15 +233,14 @@ void votingCalon(){
             }while (key != 13);  // 13 is the ASCII code for Enter key
 
             if(selectedOption == 3)
-                return 0;
+            {
+            	tampilkanMenuVote = 0;
+            	break;
+			}
 
             char conT, terminate1, terminate2;
-
-
-
             printf("Apakah anda yakin ingin memilih calon nomor urut %d (y/n)", selectedOption);
-            scanf("%c%c%c",&terminate2, &conT, &terminate1);
-            printf("%c\n", conT);
+            scanf("%c%c", &conT, &terminate1);
 
             if(conT == 'y' || conT == 'Y'){
                 char destination[20];
@@ -244,6 +249,11 @@ void votingCalon(){
                 tampilkanMenuVote = 0;
 
                 FILE *writeHasilVote = fopen("dataCalonWrite.txt", "w");
+   				FILE *blacklistAppend = fopen("blackList.txt", "a");
+
+				fprintf(blacklistAppend, "%s\n", userNIM);
+
+				fclose(blacklistAppend);
 
                 int i = 0;
 
@@ -251,7 +261,6 @@ void votingCalon(){
                     char state[20];
                     int jumlahVoting;
                     fscanf(readStream, "%s %d", state, &jumlahVoting);
-                    printf("destination : %s\nstate: %s\n", destination, state);
                     if(strcmp(destination, state) == 0){
                         jumlahVoting++;
                         fprintf(writeHasilVote, "%s %d\n", state, jumlahVoting);
@@ -268,6 +277,8 @@ void votingCalon(){
                 }
 
                 fclose(writeHasilVote);
+
+                *permissionVote = 0;
 
             }
             else{
@@ -291,6 +302,9 @@ void votingCalon(){
         i++;
 
     }
+
+    fclose(writeStream);
+    fclose(readMenuVote);
             // Clear the console screen (for Windows) - Moved outside of the submenu loop
             // system("cls");
 
@@ -306,6 +320,27 @@ int statusUserAsk(){
             status = 1;
         else
             status = 0;
+
     return status;
 }
 
+int validateVote(char NIMtoVal[20]){
+	FILE *blacklist = fopen("blackList.txt", "r");
+	int permission = 1;
+	char NIMtemp[20];
+
+	while(!feof(blacklist)){
+		fscanf(blacklist, "%s", NIMtemp);
+		if(strcmp(NIMtemp, NIMtoVal) == 0){
+			printf("Maaf anda sudah tidak memiliki kuota voting!\n");
+			permission = 0;
+		}
+		else
+			continue;
+
+		printf("Blacked NIM: %s\n", NIMtemp);
+	}
+
+	fclose(blacklist);
+	return permission;
+}

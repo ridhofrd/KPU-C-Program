@@ -78,17 +78,39 @@ int pilihanMenuAdmin(){
     return selectedOption;
 }
 
-void inputDataAdmin(char namaBaru[100], char NIMBaru[20], char kelasBaru[10], char JKBaru[2], FILE *dataFile, FILE *readFile){
+void integrateName(char *namaUser[100]){
+
+
+}
+
+const char * generatePassword(int size){
+    const char charset[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJK.,;";
+    char password[size];
+
+
+    if (size) {
+        srand(time(NULL));
+        --size;
+        for (size_t n = 0; n < size; n++) {
+        int keyChar = rand() % (int) (sizeof charset - 1);
+            password[n] = charset[keyChar];
+        }
+        password[size] = '\0';
+    }
+
+    static char passwordFix[] = "Sample";
+    strcpy(passwordFix, password);
+    return passwordFix;
+}
+
+void inputDataAdmin(char namaBaru[100], char NIMBaru[20], char kelasBaru[10], char JKBaru[2], char statusVoting[2], FILE *dataFile, FILE *readFile){
             // Display the submenu;
 
             if(!dataFile || !readFile){
                 printf("Nothing to see here!\n");
-                return 0;
             }
 
-            int size = 12, iC = 0;
-            char password[size];
-            const char charset[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJK...";
+            int iC = 0;
             char enterState;
             printf("Silahkan Masukkan Data...\n");
             printf("Masukkan Nama Pemilih Baru:");
@@ -99,15 +121,7 @@ void inputDataAdmin(char namaBaru[100], char NIMBaru[20], char kelasBaru[10], ch
             fgets(kelasBaru, 10, stdin);
             printf("Masukkan Jenis Kelamin Pemilih Baru(P/W):");
             fgets(JKBaru, 2, stdin);
-            if (size) {
-                    srand(time(NULL));
-                    --size;
-                    for (size_t n = 0; n < size; n++) {
-                        int keyChar = rand() % (int) (sizeof charset - 1);
-                        password[n] = charset[keyChar];
-                    }
-                    password[size] = '\0';
-            }
+            const char* passwordNew = generatePassword(12);
             namaBaru[strcspn(namaBaru, "\n")] = 0;
             NIMBaru[strcspn(NIMBaru, "\n")] = 0;
             kelasBaru[strcspn(kelasBaru, "\n")] = 0;
@@ -122,13 +136,14 @@ void inputDataAdmin(char namaBaru[100], char NIMBaru[20], char kelasBaru[10], ch
             }
 
             system("cls");
+            statusVoting = "T";
 
             printf("\nNama yang diinputkan: %s\n", namaBaru);
             printf("NIM yang diinputkan: %s\n", NIMBaru);
             printf("Kelas yang diinputkan: %s\n", kelasBaru);
             printf("Jenis Kelamin yang diinputkan: %s\n\n", JKBaru);
-            printf("Password yang tergenerasi untuk user NIM %s : %s\n\n", NIMBaru, password);
-            fprintf(dataFile, "%s %s %s %s %s T\n", namaBaru, NIMBaru, kelasBaru, JKBaru, password);
+            printf("Password yang tergenerasi untuk user NIM %s : %s\n\n", NIMBaru, passwordNew);
+            fprintf(dataFile, "%s %s %s %s %s %s\n", namaBaru, NIMBaru, kelasBaru, JKBaru, passwordNew, statusVoting);
             printf("Klik enter jika sudah selesai!");
             scanf("%c", &enterState);
 
@@ -244,5 +259,19 @@ int AdminlogIn(){
     return finalS;
 
 
+}
+
+
+
+int statusAdminAsk(){
+    int status = 0;
+        printf("Apakah anda ingin kembali ke menu admin?(y/n)");
+        char terminate, statusC;
+        scanf("%c%c", &statusC, &terminate);
+        if(statusC == 'y' || statusC == 'Y')
+            status = 1;
+        else
+            status = 0;
+    return status;
 }
 
